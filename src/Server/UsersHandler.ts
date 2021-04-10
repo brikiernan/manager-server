@@ -1,17 +1,14 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { HTTP_CODES, HTTP_METHODS } from '../Shared/Model';
 import { UsersDBAccess } from '../User/UsersDbAccess';
-import { Handler } from './Model';
+import { BaseRequestHandler } from './BaseRequestHandler';
 import { Utils } from './Utils';
 
-export class UsersHandler implements Handler {
-  private req: IncomingMessage;
-  private res: ServerResponse;
+export class UsersHandler extends BaseRequestHandler {
   private usersDBAccess: UsersDBAccess = new UsersDBAccess();
 
   constructor(req: IncomingMessage, res: ServerResponse) {
-    this.req = req;
-    this.res = res;
+    super(req, res);
   }
 
   async handleRequest(): Promise<void> {
@@ -28,12 +25,21 @@ export class UsersHandler implements Handler {
 
   private async handleGet() {
     const parsedUrl = Utils.getUrlQuery(this.req.url);
-    console.log(parsedUrl?.query.id);
-    const a = '5';
-  }
 
-  private async handleNotFound() {
-    this.res.statusCode = HTTP_CODES.NOT_FOUND;
-    this.res.write('Not found.');
+    if (!parsedUrl) return;
+
+    const userId = parsedUrl.query.id;
+
+    if (!userId) {
+      return this.respondBadRequest('UserId not present in request.');
+    }
+
+    const user = await this.usersDBAccess.getUserById(userId as string);
+
+    if (!user) {
+      return this.handleNotFound();
+    }
+
+    this.respondJsonObject(HTTP_CODES.OK, user);
   }
 }
