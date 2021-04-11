@@ -7,4 +7,22 @@ Content-Type: application/json
 }
 ###
 
-GET http://localhost:8080/users?id=asdsdasdas
+GET http://localhost:8080/users?name=a
+Authorization: e0ftmtq7yac
+
+###
+PUT http://localhost:8080/users
+Authorization: u9e3dz2zuoj
+Content-Type: application/json
+
+{
+  "age": 45,
+  "email": "some@otheremail.com",
+  "name": "barosanu",
+  "workingPosition": 3
+} 
+
+###
+
+DELETE  http://localhost:8080/users?id=asdsdasdas
+Authorization: d7x6ey407m

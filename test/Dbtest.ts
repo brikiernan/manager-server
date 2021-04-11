@@ -6,16 +6,16 @@ class Dbtest {
   public userDbAccess: UsersDBAccess = new UsersDBAccess();
 }
 
-// new Dbtest().dbAccess.putUserCredential({
-//   username: 'user1',
-//   password: 'password1',
-//   accessRights: [1, 2, 3],
-// });
-
-new Dbtest().userDbAccess.putUser({
-  id: 'asdsdasdas',
-  name: 'Brian',
-  email: 'test@test.com',
-  age: 44,
-  workingPosition: 3,
+new Dbtest().dbAccess.putUserCredential({
+  username: 'user1',
+  password: 'password1',
+  accessRights: [0, 1, 2, 3],
 });
+
+// new Dbtest().userDbAccess.putUser({
+//     age: 30,
+//     email: 'some@email.com',
+//     id: 'asd23234',
+//     name: 'John Abc',
+//     workingPosition: 3
+// });
